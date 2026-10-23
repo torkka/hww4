@@ -54,6 +54,10 @@ fun ArtSpaceLayout(modifier: Modifier = Modifier) {
             artist = R.string.panda_artist,
             year = R.string.panda_year
         )
+        DisplayController(
+            onPrevious = { },
+            onNext = { }
+        )
     }
 }
 
@@ -98,6 +102,26 @@ fun ArtworkDescriptor(
             text = "${stringResource(artist)} (${stringResource(year)})",
             fontWeight = FontWeight.Bold
         )
+    }
+}
+@Composable
+fun DisplayController(
+    onPrevious: () -> Unit,
+    onNext: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Button(onClick = onPrevious, modifier = Modifier.weight(1f)) {
+            Text(stringResource(R.string.previous))
+        }
+        Button(onClick = onNext, modifier = Modifier.weight(1f)) {
+            Text(stringResource(R.string.next))
+        }
     }
 }
 
