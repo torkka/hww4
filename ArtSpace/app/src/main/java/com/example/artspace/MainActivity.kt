@@ -5,22 +5,26 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.example.artspace.ui.theme.ArtSpaceTheme
-import androidx.annotation.StringRes
-import androidx.compose.foundation.background
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.artspace.ui.theme.ArtSpaceTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +42,31 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ArtSpaceLayout(modifier: Modifier = Modifier) {
+    // NEW: номер текущей картины (1, 2 или 3)
+    var currentArtwork by remember { mutableIntStateOf(1) }
+
+    // NEW: по номеру выбираем картинку и тексты
+    val imageRes = when (currentArtwork) {
+        1 -> R.drawable.panda
+        2 -> R.drawable.nature
+        else -> R.drawable.rainbow
+    }
+    val titleRes = when (currentArtwork) {
+        1 -> R.string.panda_title
+        2 -> R.string.nature_title
+        else -> R.string.rainbow_title
+    }
+    val artistRes = when (currentArtwork) {
+        1 -> R.string.panda_artist
+        2 -> R.string.nature_artist
+        else -> R.string.rainbow_artist
+    }
+    val yearRes = when (currentArtwork) {
+        1 -> R.string.panda_year
+        2 -> R.string.nature_year
+        else -> R.string.rainbow_year
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -46,21 +75,25 @@ fun ArtSpaceLayout(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ArtworkWall(
-            imageRes = R.drawable.panda,
+            imageRes = imageRes,
             modifier = Modifier.weight(1f)
         )
         ArtworkDescriptor(
-            title = R.string.panda_title,
-            artist = R.string.panda_artist,
-            year = R.string.panda_year
+            title = titleRes,
+            artist = artistRes,
+            year = yearRes
         )
+        // NEW: кнопки меняют номер картины по кругу
         DisplayController(
-            onPrevious = { },
-            onNext = { }
+            onPrevious = {
+                currentArtwork = if (currentArtwork == 1) 3 else currentArtwork - 1
+            },
+            onNext = {
+                currentArtwork = if (currentArtwork == 3) 1 else currentArtwork + 1
+            }
         )
     }
 }
-
 
 @Composable
 fun ArtworkWall(
@@ -104,6 +137,7 @@ fun ArtworkDescriptor(
         )
     }
 }
+
 @Composable
 fun DisplayController(
     onPrevious: () -> Unit,
