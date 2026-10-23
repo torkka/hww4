@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">ArtSpace</string>
+    <string name="app_name">Art Space</string>
+
+    <string name="panda_title">Panda</string>
+    <string name="panda_artist">Torekhan</string>
+    <string name="panda_year">2026</string>
+
+    <string name="nature_title">Nature</string>
+    <string name="nature_artist">Torekhan</string>
+    <string name="nature_year">2026</string>
+
+    <string name="rainbow_title">Rainbow</string>
+    <string name="rainbow_artist">Torekhan</string>
+    <string name="rainbow_year">2026</string>
+
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
 </resources>
