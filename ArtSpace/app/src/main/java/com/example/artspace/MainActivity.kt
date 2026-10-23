@@ -16,6 +16,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.artspace.ui.theme.ArtSpaceTheme
+import androidx.annotation.StringRes
+import androidx.compose.foundation.background
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,8 +49,14 @@ fun ArtSpaceLayout(modifier: Modifier = Modifier) {
             imageRes = R.drawable.panda,
             modifier = Modifier.weight(1f)
         )
+        ArtworkDescriptor(
+            title = R.string.panda_title,
+            artist = R.string.panda_artist,
+            year = R.string.panda_year
+        )
     }
 }
+
 
 @Composable
 fun ArtworkWall(
@@ -61,6 +72,31 @@ fun ArtworkWall(
             contentDescription = null,
             contentScale = ContentScale.Fit,
             modifier = Modifier.padding(24.dp)
+        )
+    }
+}
+
+@Composable
+fun ArtworkDescriptor(
+    @StringRes title: Int,
+    @StringRes artist: Int,
+    @StringRes year: Int,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .padding(16.dp)
+    ) {
+        Text(
+            text = stringResource(title),
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Light
+        )
+        Text(
+            text = "${stringResource(artist)} (${stringResource(year)})",
+            fontWeight = FontWeight.Bold
         )
     }
 }
